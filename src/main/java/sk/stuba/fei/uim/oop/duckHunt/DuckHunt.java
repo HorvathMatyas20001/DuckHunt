@@ -4,9 +4,11 @@ import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.*;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
+import java.util.ArrayList;
+
 public class DuckHunt {
     private final Player[] players;
-
+    private ArrayList<String> boardDeck;
 
 
 
@@ -19,6 +21,12 @@ public class DuckHunt {
         }
 
     }
+    private void initializePond(){
 
+
+    }
+    private void initialzeActionCardDeck(){
+
+    }
 
 }
