@@ -2,10 +2,11 @@ package sk.stuba.fei.uim.oop.card.duckAndWaterCards;
 
 
 public class DuckCard extends Pond {
-    private String owner;
+    private final String playerId;
 
-    public DuckCard(String owner) {
-        super("Duck");
-        this.owner = owner;
+    public DuckCard(String playerId) {
+        super("Duck of");
+        this.playerId = playerId;
     }
+
 }
