@@ -2,9 +2,11 @@ package sk.stuba.fei.uim.oop.player;
 
 import sk.stuba.fei.uim.oop.card.actionCards.ActionCard;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.DuckCard;
+import sk.stuba.fei.uim.oop.utility.Tools;
+import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -13,8 +15,7 @@ public class Player {
     private int lives;
     private boolean alive;
 
-
-    //private ActionCard hand;
+    private List<ActionCard> hand;
 
 
     public Player(String playerName,String playerId){
@@ -24,6 +25,16 @@ public class Player {
         this.alive = true;
 
         //this.hand = new ArrayList<>();
+    }
+    public void aimAt(List<Boolean> aimDeck){
+        int aimTarget;
+        do {
+            aimTarget = ZKlavesnice.readInt("Enter what tile you want to aim at:");
+        }while(!Tools.validInputInRange(1,6,aimTarget) && Tools.checkAimDeckStatus(aimTarget,aimDeck)); // have to test this
+        aimDeck.set(aimTarget-1,true);
+    }
+    public void shoot(){
+
     }
 
     public String getPlayerName() {

@@ -2,9 +2,10 @@ package sk.stuba.fei.uim.oop.duckHunt;
 
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.*;
+import sk.stuba.fei.uim.oop.card.actionCards.*;
 import sk.stuba.fei.uim.oop.utility.Tools;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
-import sk.stuba.fei.uim.oop.utility.GetValidInput;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import java.util.List;
 public class DuckHunt {
     private final Player[] players;
     private List<Pond> pondDeck;
+    private List<ActionCard> actionCardDeck;
     private List<Boolean> aimDeck;
 
 
@@ -21,7 +23,7 @@ public class DuckHunt {
         int numberOfPlayers;
         do {
             numberOfPlayers = ZKlavesnice.readInt("Enter number of players (2-6):");
-        }while(!GetValidInput.validInputInRange(2,6,numberOfPlayers));
+        }while(!Tools.validInputInRange(2,6,numberOfPlayers));
 
         players = new Player[numberOfPlayers];
         Tools.printSeparator();
@@ -31,6 +33,7 @@ public class DuckHunt {
             Tools.printSeparator();
         }
         initializePond(numberOfPlayers,players);
+        initializeActionCardDeck();
         startGame();
     }
 
@@ -60,10 +63,15 @@ public class DuckHunt {
         for(int i=0; i<6; ++i){
             System.out.println(pondDeck.get(i).place() + ((aimDeck.get(i))?" - Aimed at":" - Not aimed at"));
         }
+        Tools.printSeparator();
     }
 
     private void startGame(){
         Collections.shuffle(pondDeck);
+        printBoard();
+        players[1].aimAt(aimDeck);
+        printBoard();
+        players[1].aimAt(aimDeck);
         printBoard();
     }
 

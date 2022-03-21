@@ -5,7 +5,7 @@ public abstract class Pond {
 
     public abstract String place();
 
-    public Pond(String type) {this.type = type;}
+    public Pond(String type) { this.type = type; }
 
 
 }
