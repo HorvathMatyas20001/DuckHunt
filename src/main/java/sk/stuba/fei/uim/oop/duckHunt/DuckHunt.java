@@ -2,8 +2,9 @@ package sk.stuba.fei.uim.oop.duckHunt;
 
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.*;
-import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import sk.stuba.fei.uim.oop.utility.Tools;
+import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
+import sk.stuba.fei.uim.oop.utility.GetValidInput;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,11 +18,15 @@ public class DuckHunt {
 
     public DuckHunt(){
         System.out.println("You are playing Duck Hunt");
-        int numberOfPlayers = KeyboardInput.readInt("Enter number of players");
+        int numberOfPlayers;
+        do {
+            numberOfPlayers = ZKlavesnice.readInt("Enter number of players (2-6):");
+        }while(!GetValidInput.validInputInRange(2,6,numberOfPlayers));
+
         players = new Player[numberOfPlayers];
         Tools.printSeparator();
         for (int i =0; i < numberOfPlayers; ++i){
-            players[i] = new Player(KeyboardInput.readString("Enter PLAYER " + (i + 1) + "'s name"),("PLAYER" + (i+1)));
+            players[i] = new Player(ZKlavesnice.readString("Enter PLAYER " + (i + 1) + "'s name:"),("PLAYER" + (i+1)));
             System.out.println(players[i].getPlayerName()+" you are " + players[i].getPlayerId());
             Tools.printSeparator();
         }
@@ -52,12 +57,14 @@ public class DuckHunt {
     }
 
     private void printBoard(){
-
+        for(int i=0; i<6; ++i){
+            System.out.println(pondDeck.get(i).place() + ((aimDeck.get(i))?" - Aimed at":" - Not aimed at"));
+        }
     }
 
     private void startGame(){
         Collections.shuffle(pondDeck);
+        printBoard();
     }
-
 
 }

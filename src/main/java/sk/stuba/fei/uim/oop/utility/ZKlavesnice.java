@@ -45,7 +45,7 @@ public class ZKlavesnice {
             //System.out.println("Nacital som " + s);
             n = Integer.parseInt(s);
         } catch (Exception e) {
-            System.out.println("nepodarilo sa");
+            System.out.println("Invalid input");
             n = readInt(napis_pre_uzivatela);
         }
 
