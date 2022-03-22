@@ -3,7 +3,6 @@ package sk.stuba.fei.uim.oop.duckHunt;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.*;
 import sk.stuba.fei.uim.oop.card.actionCards.*;
-import sk.stuba.fei.uim.oop.utility.Tools;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
 
@@ -23,14 +22,14 @@ public class DuckHunt {
         int numberOfPlayers;
         do {
             numberOfPlayers = ZKlavesnice.readInt("Enter number of players (2-6):");
-        }while(!Tools.validInputInRange(2,6,numberOfPlayers));
+        }while(!validInputInRange(2,6,numberOfPlayers));
 
         players = new Player[numberOfPlayers];
-        Tools.printSeparator();
+        printSeparator();
         for (int i =0; i < numberOfPlayers; ++i){
             players[i] = new Player(ZKlavesnice.readString("Enter PLAYER " + (i + 1) + "'s name:"),("PLAYER" + (i+1)));
             System.out.println(players[i].getPlayerName()+" you are " + players[i].getPlayerId());
-            Tools.printSeparator();
+            printSeparator();
         }
         initializePond(numberOfPlayers,players);
         initializeActionCardDeck();
@@ -38,36 +37,65 @@ public class DuckHunt {
     }
 
 
-
-    private void initializePond(int numberOfPlayers,Player[] players){
+    private void initializePond(int numberOfPlayers, Player[] players) {
         pondDeck = new ArrayList<Pond>();
         aimDeck = new ArrayList<Boolean>();
-        for (int i=0; i<numberOfPlayers; ++i) {
-            for(int j=0; j<players[i].getLives(); ++j){
+        for (int i = 0; i < numberOfPlayers; ++i) {
+            for (int j = 0; j < players[i].getLives(); ++j) {
                 pondDeck.add(new DuckCard(players[i].getPlayerId()));
             }
         }
-        for(int i=0; i<5; ++i){
+        for (int i = 0; i < 5; ++i) {
             pondDeck.add(new WaterCard());
         }
-        for(int i=0; i<6; ++i){
+        for (int i = 0; i < 6; ++i) {
             aimDeck.add(false);
         }
     }
 
-    private void initializeActionCardDeck(){
-
+    private void initializeActionCardDeck() {
+        actionCardDeck = new ArrayList<ActionCard>();
+        for (int i = 0; i < 10; ++i) {
+            actionCardDeck.add(new AimCard());
+        }
+        for (int i = 0; i < 12; ++i) {
+            actionCardDeck.add(new ShootCard());
+        }
+        for (int i = 0; i < 2; ++i) {
+            actionCardDeck.add(new WildBillCard());
+        }
     }
 
     private void printBoard(){
         for(int i=0; i<6; ++i){
             System.out.println(pondDeck.get(i).place() + ((aimDeck.get(i))?" - Aimed at":" - Not aimed at"));
         }
-        Tools.printSeparator();
+        printSeparator();
+    }
+
+    public boolean validInputInRange(int min, int max,int input){
+
+        if(input >= min && input <= max) return true;
+        else{
+            System.out.println("The number you enter is either to big or to small. Re enter a valid number");
+            return false;
+        }
+    }
+    public void printSeparator(){
+        System.out.println("----------------------------");
     }
 
     private void startGame(){
         Collections.shuffle(pondDeck);
+        Collections.shuffle(actionCardDeck);
+        for(int i=0; i <players.length; ++i){
+            for(int j=0; j<3; ++j) players[i].drawActionCard(actionCardDeck);
+        }
+        System.out.println("end of test");
+    }
+}
+/*
+        //test
         printBoard();
         players[0].aim(aimDeck);
         printBoard();
@@ -79,6 +107,4 @@ public class DuckHunt {
         printBoard();
         players[0].aimAndShoot(aimDeck,pondDeck,players);
         printBoard();
-    }
-
-}
+ */
