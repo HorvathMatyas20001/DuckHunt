@@ -14,4 +14,7 @@ public class DuckCard extends Pond {
         this.playerId = playerId;
     }
 
+    public String getPlayerId() {
+        return playerId;
+    }
 }

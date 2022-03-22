@@ -69,9 +69,15 @@ public class DuckHunt {
     private void startGame(){
         Collections.shuffle(pondDeck);
         printBoard();
-        players[1].aimAt(aimDeck);
+        players[0].aim(aimDeck);
         printBoard();
-        players[1].aimAt(aimDeck);
+        players[0].aim(aimDeck);
+        printBoard();
+        players[0].shoot(aimDeck,pondDeck,players);
+        printBoard();
+        players[0].aimAndShoot(aimDeck,pondDeck,players);
+        printBoard();
+        players[0].aimAndShoot(aimDeck,pondDeck,players);
         printBoard();
     }
 
