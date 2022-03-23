@@ -65,6 +65,9 @@ public class DuckHunt {
             actionCardDeck.add(new WildBillCard());
         }
     }
+    private void printSeparator(){
+        System.out.println("----------------------------");
+    }
 
     private void printBoard(){
         for(int i=0; i<6; ++i){
@@ -73,16 +76,30 @@ public class DuckHunt {
         printSeparator();
     }
 
-    public boolean validInputInRange(int min, int max,int input){
+    private void printHand(int activePlayer,Player[] players){
+        System.out.println(players[activePlayer].getPlayerId() + ", you have:");
+        for(int i=0; i<players[activePlayer].getHand().size(); ++i) {
+            System.out.print(players[activePlayer].getHand().get(i).getType() + " ");
+        }
+        System.out.println();
+        printSeparator();
+    }
+
+    public int selectActionCard(){
+        int cardYouWantToPlay;
+        do {
+            cardYouWantToPlay = ZKlavesnice.readInt("Enter what card you want to play (1-3):");
+        }while(!validInputInRange(1,3,cardYouWantToPlay));
+        return cardYouWantToPlay-1;
+    }
+
+    private boolean validInputInRange(int min, int max,int input){
 
         if(input >= min && input <= max) return true;
         else{
             System.out.println("The number you enter is either to big or to small. Re enter a valid number");
             return false;
         }
-    }
-    public void printSeparator(){
-        System.out.println("----------------------------");
     }
 
     private void startGame(){
@@ -91,7 +108,19 @@ public class DuckHunt {
         for(int i=0; i <players.length; ++i){
             for(int j=0; j<3; ++j) players[i].drawActionCard(actionCardDeck);
         }
-        System.out.println("end of test");
+
+        int activePlayer = 0;
+        boolean didSomeoneWin = false;
+        do {
+            printBoard();
+            printHand(activePlayer,players);
+            int selectedCard=selectActionCard();
+            players[activePlayer].getHand().get(selectedCard).playActionCard(players[activePlayer],aimDeck,pondDeck,players,activePlayer);
+            actionCardDeck.add(players[activePlayer].getHand().get(selectedCard));
+            players[activePlayer].getHand().remove(selectedCard);//test
+            activePlayer = (activePlayer + 1) % players.length;
+        }while(!didSomeoneWin);
+
     }
 }
 /*

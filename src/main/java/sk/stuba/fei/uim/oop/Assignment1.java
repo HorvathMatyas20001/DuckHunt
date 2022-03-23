@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop;
 
+
 import sk.stuba.fei.uim.oop.duckHunt.DuckHunt;
 
 public class Assignment1 {

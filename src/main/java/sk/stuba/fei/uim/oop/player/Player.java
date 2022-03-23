@@ -60,7 +60,7 @@ public class Player {
         actionDeck.remove(0);
     }
 
-    public boolean checkAimDeckStatus(int target,List<Boolean> aimDeck){
+    private boolean checkAimDeckStatus(int target,List<Boolean> aimDeck){
         if(aimDeck.get(target-1)){
             System.out.println("The target you are trying to aim at is already aimed at");
             return true;
@@ -68,7 +68,7 @@ public class Player {
 
     }
 
-    public void checkIfDuckAndKillIt(List<Pond> pondDeck, Player[] players,int shootTarget){
+    private void checkIfDuckAndKillIt(List<Pond> pondDeck, Player[] players,int shootTarget){
         if (pondDeck.get(shootTarget - 1).getType() == ("Duck")) {
             System.out.println("you shot down duck of " + ((DuckCard) (pondDeck.get(shootTarget - 1))).getPlayerId());
             for (int i = 0; i < players.length; ++i) {
@@ -81,7 +81,7 @@ public class Player {
             printSeparator();
         }
     }
-    public boolean checkAimDeckStatusForShooting(int target,List<Boolean> aimDeck) {
+    private boolean checkAimDeckStatusForShooting(int target,List<Boolean> aimDeck) {
         if (aimDeck.get(target - 1)) {
             return false;
         } else {
@@ -89,11 +89,11 @@ public class Player {
             return true;
         }
     }
-    public void printSeparator(){
+    private void printSeparator(){
         System.out.println("----------------------------");
     }
 
-    public boolean validInputInRange(int min, int max,int input){
+    private boolean validInputInRange(int min, int max,int input){
 
         if(input >= min && input <= max) return true;
         else{
@@ -101,6 +101,15 @@ public class Player {
             return false;
         }
     }
+
+    public int selectActionCard(){
+        int cardYouWantToPlay;
+        do {
+            cardYouWantToPlay = ZKlavesnice.readInt("Enter what card you want to play (1-3):");
+        }while(!validInputInRange(1,3,cardYouWantToPlay));
+        return cardYouWantToPlay-1;
+    }
+
     public String getPlayerName() {
         return playerName;
     }
@@ -109,11 +118,19 @@ public class Player {
         return playerId;
     }
 
+    public boolean isAlive() {
+        return alive;
+    }
+
     public int getLives() {
         return lives;
     }
 
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    public List<ActionCard> getHand() {
+        return hand;
     }
 }
