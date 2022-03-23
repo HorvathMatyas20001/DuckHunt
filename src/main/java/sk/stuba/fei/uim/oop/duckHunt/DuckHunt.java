@@ -101,6 +101,13 @@ public class DuckHunt {
             return false;
         }
     }
+    private void checkIfDead(Player player,Player[] players,int activePlayer){
+        if(player.getLives()==0)
+        {
+            //players.splice();
+        }
+
+    }
 
     private void startGame(){
         Collections.shuffle(pondDeck);
@@ -112,28 +119,22 @@ public class DuckHunt {
         int activePlayer = 0;
         boolean didSomeoneWin = false;
         do {
-            printBoard();
-            printHand(activePlayer,players);
-            int selectedCard=selectActionCard();
-            players[activePlayer].getHand().get(selectedCard).playActionCard(players[activePlayer],aimDeck,pondDeck,players,activePlayer);
+            int selectedCard;
+            boolean didPlayerPlayCard=false;
+
+            do{
+                printBoard();
+                printHand(activePlayer,players);
+                selectedCard=selectActionCard();
+                didPlayerPlayCard=players[activePlayer].getHand().get(selectedCard).playActionCard(players[activePlayer],aimDeck,pondDeck,players,activePlayer);
+            }while(!didPlayerPlayCard);
+
+            players[activePlayer].drawActionCard(actionCardDeck);
             actionCardDeck.add(players[activePlayer].getHand().get(selectedCard));
-            players[activePlayer].getHand().remove(selectedCard);//test
+            players[activePlayer].getHand().remove(selectedCard);
             activePlayer = (activePlayer + 1) % players.length;
         }while(!didSomeoneWin);
 
+
     }
 }
-/*
-        //test
-        printBoard();
-        players[0].aim(aimDeck);
-        printBoard();
-        players[0].aim(aimDeck);
-        printBoard();
-        players[0].shoot(aimDeck,pondDeck,players);
-        printBoard();
-        players[0].aimAndShoot(aimDeck,pondDeck,players);
-        printBoard();
-        players[0].aimAndShoot(aimDeck,pondDeck,players);
-        printBoard();
- */

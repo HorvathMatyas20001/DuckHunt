@@ -15,14 +15,14 @@ public class Player {
     private final String playerName;
     private final String playerId;
     private int lives;
-    private boolean alive;
+
     private List<ActionCard> hand;
 
     public Player(String playerName,String playerId){
         this.playerName = playerName;
         this.playerId = playerId;
         this.lives = 5;
-        this.alive = true;
+
         this.hand = new ArrayList<ActionCard>();
     }
 
@@ -55,9 +55,9 @@ public class Player {
         checkIfDuckAndKillIt(pondDeck,players,shootTarget);
     }
 
-    public void drawActionCard(List<ActionCard> actionDeck){
-        hand.add(actionDeck.get(0));
-        actionDeck.remove(0);
+    public void drawActionCard(List<ActionCard> actionCardDeck){
+        hand.add(actionCardDeck.get(0));
+        actionCardDeck.remove(0);
     }
 
     private boolean checkAimDeckStatus(int target,List<Boolean> aimDeck){
@@ -116,10 +116,6 @@ public class Player {
 
     public String getPlayerId() {
         return playerId;
-    }
-
-    public boolean isAlive() {
-        return alive;
     }
 
     public int getLives() {

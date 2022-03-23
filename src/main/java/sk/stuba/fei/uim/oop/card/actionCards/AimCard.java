@@ -10,20 +10,19 @@ public class AimCard extends ActionCard{
         super("Aimcard");
     }
     @Override
-    public void playActionCard(Player player, List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players,int activePlayer) {
-        boolean checkWholeBoardTrue=true;
+    public boolean playActionCard(Player player, List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players,int activePlayer) {
+        boolean checkWholeBoardTrue=false;
         for(int i=0; i<aimDeck.size(); ++i) {
-            if (aimDeck.get(i)) {
-                checkWholeBoardTrue = false;
+            if (!aimDeck.get(i)) {
+                checkWholeBoardTrue = true;
             }
         }
         if(checkWholeBoardTrue){
             player.aim(aimDeck);
+            return true;
         }else{
             System.out.println("sorry you cant play this card because whole board is aimed at ");
-            int selectedCard=(player.selectActionCard());
-            players[activePlayer].getHand().get((selectedCard)).playActionCard(players[activePlayer],aimDeck,pondDeck,players,activePlayer);
-            players[activePlayer].getHand().remove(selectedCard);
+            return false;
         }
     }
 }

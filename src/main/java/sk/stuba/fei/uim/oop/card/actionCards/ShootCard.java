@@ -12,18 +12,19 @@ public class ShootCard extends ActionCard {
         super("ShootCard");
     }
     @Override
-    public void playActionCard(Player player, List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players,int activePlayer) {
-        boolean checkWholeBoardFalse=true;
+    public boolean playActionCard(Player player, List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players,int activePlayer) {
+        boolean checkWholeBoardFalse=false;
         for(int i=0; i<aimDeck.size(); ++i){
-            if(!aimDeck.get(i)){
-                checkWholeBoardFalse =false;
+            if(aimDeck.get(i)){
+                checkWholeBoardFalse =true;
             }
         }
         if(checkWholeBoardFalse) {
             player.shoot(aimDeck, pondDeck, players);
+            return true;
         }else{
             System.out.println("sorry you cant play this card because non of the Tiles are aimed at");
-            players[activePlayer].getHand().get((player.selectActionCard())).playActionCard(players[activePlayer],aimDeck,pondDeck,players,activePlayer);
+            return false;
         }
     }
 }

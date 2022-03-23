@@ -10,7 +10,8 @@ public class WildBillCard extends ActionCard{
         super("WildBillCard");
     }
     @Override
-    public void playActionCard(Player player, List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players,int activePlayer) {
+    public boolean playActionCard(Player player, List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players,int activePlayer) {
         player.aimAndShoot(aimDeck,pondDeck,players);
+        return true;
     }
 }
