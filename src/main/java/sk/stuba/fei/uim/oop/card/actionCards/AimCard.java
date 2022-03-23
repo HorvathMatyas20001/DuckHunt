@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AimCard extends ActionCard{
     public AimCard() {
-        super("Aimcard");
+        super("AimCard");
     }
     @Override
     public boolean playActionCard( List<Boolean> aimDeck, List<Pond> pondDeck,List<Player> players,int activePlayer,List<ActionCard> actionCardDeck) {
@@ -19,7 +19,7 @@ public class AimCard extends ActionCard{
         }
         boolean checkIfWholeHandAimCard = true;
         for(int i=0;i<players.get(activePlayer).getHand().size(); ++i){
-            if(!players.get(activePlayer).getHand().get(i).type.equals("Aimcard")){
+            if(!players.get(activePlayer).getHand().get(i).type.equals("AimCard")){
                 checkIfWholeHandAimCard = false;
             }
         }

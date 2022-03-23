@@ -1,8 +1,10 @@
 package sk.stuba.fei.uim.oop.duckHunt;
 
+
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.*;
 import sk.stuba.fei.uim.oop.card.actionCards.*;
+import sk.stuba.fei.uim.oop.card.actionCards.movementCards.*;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
 
@@ -65,6 +67,13 @@ public class DuckHunt {
         for (int i = 0; i < 2; ++i) {
             actionCardDeck.add(new WildBillCard());
         }
+        for (int i = 0; i < 6; ++i) {
+            actionCardDeck.add(new DuckMarchCard());
+        }
+        for (int i = 0; i < 1; ++i) {
+            actionCardDeck.add(new DuckDanceCard());
+        }
+
     }
     private void printSeparator(){
         System.out.println("----------------------------");
