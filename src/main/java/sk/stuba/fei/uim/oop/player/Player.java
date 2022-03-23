@@ -21,7 +21,7 @@ public class Player {
     public Player(String playerName,String playerId){
         this.playerName = playerName;
         this.playerId = playerId;
-        this.lives = 5;
+        this.lives = 1;
 
         this.hand = new ArrayList<ActionCard>();
     }
@@ -29,26 +29,26 @@ public class Player {
     public void aim(List<Boolean> aimDeck){
         int aimTarget;
         do {
-            aimTarget = ZKlavesnice.readInt("Enter what tile you want to aim at:");
+            aimTarget = ZKlavesnice.readInt("Select what tile you want to aim at:");
         }while(!validInputInRange(1,6,aimTarget) || checkAimDeckStatus(aimTarget,aimDeck));
         aimDeck.set(aimTarget-1,true);
         printSeparator();
     }
 
-    public void shoot(List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players) {
+    public void shoot(List<Boolean> aimDeck, List<Pond> pondDeck,List<Player> players) {
         int shootTarget;
         do {
-            shootTarget = ZKlavesnice.readInt("Enter what tile you want to shoot at:");
+            shootTarget = ZKlavesnice.readInt("Select what tile you want to shoot at:");
         } while (!validInputInRange(1, 6, shootTarget) || checkAimDeckStatusForShooting(shootTarget, aimDeck));
         aimDeck.set(shootTarget - 1, false);
         printSeparator();
         checkIfDuckAndKillIt(pondDeck,players,shootTarget);
     }
 
-    public void aimAndShoot(List<Boolean> aimDeck,List<Pond> pondDeck,Player[] players){
+    public void aimAndShoot(List<Boolean> aimDeck,List<Pond> pondDeck,List<Player> players){
         int shootTarget;
         do {
-            shootTarget = ZKlavesnice.readInt("Enter what tile you want to aim and shoot at:");
+            shootTarget = ZKlavesnice.readInt("Select what tile you want to aim and shoot at:");
         } while (!validInputInRange(1, 6, shootTarget));
         aimDeck.set(shootTarget - 1, false);
         printSeparator();
@@ -59,6 +59,21 @@ public class Player {
         hand.add(actionCardDeck.get(0));
         actionCardDeck.remove(0);
     }
+    public void discardActionCard(List<ActionCard> actionCardDeck){
+        System.out.println("Unfortunately you cant play any of your cards");
+        System.out.println("Please select what card do you want to discard");
+        int selectedCard=selectActionCardToDiscard();
+        actionCardDeck.add(hand.get(selectedCard));
+        hand.remove(selectedCard);
+        drawActionCard(actionCardDeck);
+    }
+    public int selectActionCardToDiscard(){
+        int cardYouWantToPlay;
+        do {
+            cardYouWantToPlay = ZKlavesnice.readInt("Select what card you want to discard (1-3):");
+        }while(!validInputInRange(1,3,cardYouWantToPlay));
+        return cardYouWantToPlay-1;
+    }
 
     private boolean checkAimDeckStatus(int target,List<Boolean> aimDeck){
         if(aimDeck.get(target-1)){
@@ -68,13 +83,13 @@ public class Player {
 
     }
 
-    private void checkIfDuckAndKillIt(List<Pond> pondDeck, Player[] players,int shootTarget){
+    private void checkIfDuckAndKillIt(List<Pond> pondDeck,List<Player> players,int shootTarget){
         if (pondDeck.get(shootTarget - 1).getType() == ("Duck")) {
             System.out.println("you shot down duck of " + ((DuckCard) (pondDeck.get(shootTarget - 1))).getPlayerId());
-            for (int i = 0; i < players.length; ++i) {
-                if (players[i].getPlayerId().equals(((DuckCard) (pondDeck.get(shootTarget - 1))).getPlayerId())) {
-                    players[i].setLives(players[i].getLives() - 1);
-                    System.out.println(players[i].getPlayerId() + " has lost a live and now has: " + players[i].getLives() + " lives");
+            for (int i = 0; i < players.size(); ++i) {
+                if (players.get(i).getPlayerId().equals(((DuckCard) (pondDeck.get(shootTarget - 1))).getPlayerId())) {
+                    players.get(i).setLives(players.get(i).getLives() - 1);
+                    System.out.println(players.get(i).getPlayerId() + " has lost a live and now has: " + players.get(i).getLives() + " lives");
                 }
             }
             pondDeck.remove(shootTarget - 1);
@@ -102,13 +117,6 @@ public class Player {
         }
     }
 
-    public int selectActionCard(){
-        int cardYouWantToPlay;
-        do {
-            cardYouWantToPlay = ZKlavesnice.readInt("Enter what card you want to play (1-3):");
-        }while(!validInputInRange(1,3,cardYouWantToPlay));
-        return cardYouWantToPlay-1;
-    }
 
     public String getPlayerName() {
         return playerName;

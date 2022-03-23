@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DuckHunt {
-    private final Player[] players;
+    private final List<Player> players;
     private List<Pond> pondDeck;
     private List<ActionCard> actionCardDeck;
     private List<Boolean> aimDeck;
@@ -24,11 +24,12 @@ public class DuckHunt {
             numberOfPlayers = ZKlavesnice.readInt("Enter number of players (2-6):");
         }while(!validInputInRange(2,6,numberOfPlayers));
 
-        players = new Player[numberOfPlayers];
+        players = new ArrayList<Player>();
+
         printSeparator();
         for (int i =0; i < numberOfPlayers; ++i){
-            players[i] = new Player(ZKlavesnice.readString("Enter PLAYER " + (i + 1) + "'s name:"),("PLAYER" + (i+1)));
-            System.out.println(players[i].getPlayerName()+" you are " + players[i].getPlayerId());
+            players.add(new Player(ZKlavesnice.readString("Enter PLAYER " + (i + 1) + "'s name:"),("PLAYER" + (i+1))));
+            System.out.println(players.get(i).getPlayerName()+" you are " + players.get(i).getPlayerId());
             printSeparator();
         }
         initializePond(numberOfPlayers,players);
@@ -37,12 +38,12 @@ public class DuckHunt {
     }
 
 
-    private void initializePond(int numberOfPlayers, Player[] players) {
+    private void initializePond(int numberOfPlayers, List<Player> players) {
         pondDeck = new ArrayList<Pond>();
         aimDeck = new ArrayList<Boolean>();
         for (int i = 0; i < numberOfPlayers; ++i) {
-            for (int j = 0; j < players[i].getLives(); ++j) {
-                pondDeck.add(new DuckCard(players[i].getPlayerId()));
+            for (int j = 0; j < players.get(i).getLives(); ++j) {
+                pondDeck.add(new DuckCard(players.get(i).getPlayerId()));
             }
         }
         for (int i = 0; i < 5; ++i) {
@@ -76,10 +77,10 @@ public class DuckHunt {
         printSeparator();
     }
 
-    private void printHand(int activePlayer,Player[] players){
-        System.out.println(players[activePlayer].getPlayerId() + ", you have:");
-        for(int i=0; i<players[activePlayer].getHand().size(); ++i) {
-            System.out.print(players[activePlayer].getHand().get(i).getType() + " ");
+    private void printHand(int activePlayer,List<Player> players){
+        System.out.println(players.get(activePlayer).getPlayerId() + ", you have:");
+        for(int i=0; i<players.get(activePlayer).getHand().size(); ++i) {
+            System.out.print("["  + (i+1) + "] "+ players.get(activePlayer).getHand().get(i).getType() + " ");
         }
         System.out.println();
         printSeparator();
@@ -88,7 +89,7 @@ public class DuckHunt {
     public int selectActionCard(){
         int cardYouWantToPlay;
         do {
-            cardYouWantToPlay = ZKlavesnice.readInt("Enter what card you want to play (1-3):");
+            cardYouWantToPlay = ZKlavesnice.readInt("Select what card you want to play (1-3):");
         }while(!validInputInRange(1,3,cardYouWantToPlay));
         return cardYouWantToPlay-1;
     }
@@ -101,19 +102,20 @@ public class DuckHunt {
             return false;
         }
     }
-    private void checkIfDead(Player player,Player[] players,int activePlayer){
-        if(player.getLives()==0)
-        {
-            //players.splice();
+    private void checkIfDead(List<Player> players){
+        for(int i=0; i<players.size(); ++i){
+            if(players.get(i).getLives()==0){
+                System.out.println(players.get(i).getPlayerId() + " has died good luck next time " + players.get(i).getPlayerName());
+                players.remove(i);
+            }
         }
-
     }
 
     private void startGame(){
         Collections.shuffle(pondDeck);
         Collections.shuffle(actionCardDeck);
-        for(int i=0; i <players.length; ++i){
-            for(int j=0; j<3; ++j) players[i].drawActionCard(actionCardDeck);
+        for(int i=0; i <players.size(); ++i){
+            for(int j=0; j<3; ++j) players.get(i).drawActionCard(actionCardDeck);
         }
 
         int activePlayer = 0;
@@ -126,14 +128,23 @@ public class DuckHunt {
                 printBoard();
                 printHand(activePlayer,players);
                 selectedCard=selectActionCard();
-                didPlayerPlayCard=players[activePlayer].getHand().get(selectedCard).playActionCard(players[activePlayer],aimDeck,pondDeck,players,activePlayer);
+                didPlayerPlayCard=players.get(activePlayer).getHand().get(selectedCard).playActionCard(aimDeck,pondDeck,players,activePlayer,actionCardDeck);
             }while(!didPlayerPlayCard);
 
-            players[activePlayer].drawActionCard(actionCardDeck);
-            actionCardDeck.add(players[activePlayer].getHand().get(selectedCard));
-            players[activePlayer].getHand().remove(selectedCard);
-            activePlayer = (activePlayer + 1) % players.length;
+            checkIfDead(players);
+            if (players.size()==1) {
+                didSomeoneWin = true;
+                break;
+            }
+
+            players.get(activePlayer).drawActionCard(actionCardDeck);
+            actionCardDeck.add(players.get(activePlayer).getHand().get(selectedCard));
+            players.get(activePlayer).getHand().remove(selectedCard);
+
+            activePlayer = (activePlayer + 1) % players.size();
         }while(!didSomeoneWin);
+
+        System.out.println(players.get(0).getPlayerId() + " has won the game. well done " + players.get(0).getPlayerName() );
 
 
     }

@@ -9,7 +9,7 @@ public abstract class ActionCard {
     protected String type;
     public ActionCard(String type) { this.type = type; }
 
-    public abstract boolean playActionCard(Player player, List<Boolean> aimDeck, List<Pond> pondDeck, Player[] players,int activePlayer);
+    public abstract boolean playActionCard( List<Boolean> aimDeck, List<Pond> pondDeck,List<Player> players,int activePlayer,List<ActionCard> actionCardDeck);
 
     public String getType() {
         return type;
