@@ -21,7 +21,7 @@ public class Player {
     public Player(String playerName,String playerId){
         this.playerName = playerName;
         this.playerId = playerId;
-        this.lives = 1;
+        this.lives = 5;
 
         this.hand = new ArrayList<ActionCard>();
     }
