@@ -71,10 +71,16 @@ public class DuckHunt {
             actionCardDeck.add(new DuckMarchCard());
         }
         for (int i = 0; i < 1; ++i) {
+            actionCardDeck.add(new TurboDuckCard());
+        }
+        for (int i = 0; i < 2; ++i) {
+            actionCardDeck.add(new ScatterCard());
+        }
+        for (int i = 0; i < 1; ++i) {
             actionCardDeck.add(new DuckDanceCard());
         }
-
     }
+
     private void printSeparator(){
         System.out.println("----------------------------");
     }

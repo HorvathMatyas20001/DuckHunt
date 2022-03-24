@@ -19,7 +19,10 @@ public class ScatterCard extends ActionCard {
             boardPondDeck.add(pondDeck.get(i));
         }
         Collections.shuffle(boardPondDeck);
-        //pondDeck.
+        for(int i=0; i<6; ++i){
+            pondDeck.set(i,boardPondDeck.get(i));
+        }
+
     return true;
     }
 }
