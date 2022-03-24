@@ -14,9 +14,9 @@ public class ShootCard extends ActionCard {
     @Override
     public boolean playActionCard( List<Boolean> aimDeck, List<Pond> pondDeck,List<Player> players,int activePlayer,List<ActionCard> actionCardDeck) {
         boolean checkIfThereIsTrue=false;
-        for(int i=0; i<aimDeck.size(); ++i){
-            if(aimDeck.get(i)){
-                checkIfThereIsTrue =true;
+        for (Boolean aBoolean : aimDeck) {
+            if (aBoolean) {
+                checkIfThereIsTrue = true;
             }
         }
         boolean checkIfWholeHandShootCard = true;

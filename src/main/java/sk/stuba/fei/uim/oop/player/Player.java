@@ -21,7 +21,7 @@ public class Player {
     public Player(String playerName,String playerId){
         this.playerName = playerName;
         this.playerId = playerId;
-        this.lives = 5;
+        this.lives = 1;
 
         this.hand = new ArrayList<ActionCard>();
     }
@@ -84,12 +84,12 @@ public class Player {
     }
 
     private void checkIfDuckAndKillIt(List<Pond> pondDeck,List<Player> players,int shootTarget){
-        if (pondDeck.get(shootTarget - 1).getType() == ("Duck")) {
+        if (pondDeck.get(shootTarget - 1).getType().equals("Duck")) {
             System.out.println("you shot down duck of " + ((DuckCard) (pondDeck.get(shootTarget - 1))).getPlayerId());
-            for (int i = 0; i < players.size(); ++i) {
-                if (players.get(i).getPlayerId().equals(((DuckCard) (pondDeck.get(shootTarget - 1))).getPlayerId())) {
-                    players.get(i).setLives(players.get(i).getLives() - 1);
-                    System.out.println(players.get(i).getPlayerId() + " has lost a live and now has: " + players.get(i).getLives() + " lives");
+            for (Player player : players) {
+                if (player.getPlayerId().equals(((DuckCard) (pondDeck.get(shootTarget - 1))).getPlayerId())) {
+                    player.setLives(player.getLives() - 1);
+                    System.out.println(player.getPlayerId() + " has lost a live and now has: " + player.getLives() + " lives");
                 }
             }
             pondDeck.remove(shootTarget - 1);

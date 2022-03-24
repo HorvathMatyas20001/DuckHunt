@@ -129,12 +129,11 @@ public class DuckHunt {
     private void startGame(){
         Collections.shuffle(pondDeck);
         Collections.shuffle(actionCardDeck);
-        for(int i=0; i <players.size(); ++i){
-            for(int j=0; j<3; ++j) players.get(i).drawActionCard(actionCardDeck);
+        for (Player player : players) {
+            for (int j = 0; j < 3; ++j) player.drawActionCard(actionCardDeck);
         }
 
         int activePlayer = 0;
-        boolean didSomeoneWin = false;
         do {
             int selectedCard;
             boolean didPlayerPlayCard=false;
@@ -146,18 +145,16 @@ public class DuckHunt {
                 didPlayerPlayCard=players.get(activePlayer).getHand().get(selectedCard).playActionCard(aimDeck,pondDeck,players,activePlayer,actionCardDeck);
             }while(!didPlayerPlayCard);
 
-            checkIfDead(players);
-            if (players.size()==1) {
-                didSomeoneWin = true;
-                break;
-            }
-
             players.get(activePlayer).drawActionCard(actionCardDeck);
             actionCardDeck.add(players.get(activePlayer).getHand().get(selectedCard));
             players.get(activePlayer).getHand().remove(selectedCard);
 
+            checkIfDead(players);
+            if (players.size()==1) {
+                break;
+            }
             activePlayer = (activePlayer + 1) % players.size();
-        }while(!didSomeoneWin);
+        }while(true);
 
         System.out.println(players.get(0).getPlayerId() + " has won the game. well done " + players.get(0).getPlayerName() );
 
