@@ -136,7 +136,7 @@ public class DuckHunt {
         int activePlayer = 0;
         do {
             int selectedCard;
-            boolean didPlayerPlayCard=false;
+            boolean didPlayerPlayCard;
 
             do{
                 printBoard();

@@ -3,7 +3,6 @@ package sk.stuba.fei.uim.oop.player;
 import sk.stuba.fei.uim.oop.card.actionCards.ActionCard;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.DuckCard;
 import sk.stuba.fei.uim.oop.card.duckAndWaterCards.Pond;
-import sk.stuba.fei.uim.oop.duckHunt.DuckHunt;
 import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
 
